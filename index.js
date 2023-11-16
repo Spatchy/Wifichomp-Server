@@ -17,8 +17,6 @@ io.on("connection", (socket) => {
   console.log("A client connected")
   
   socket.on("wifiData", (data) => {
-    console.log(data.networks)
-    console.log(token)
     if (data.token === token) {
       io.sockets.emit("wifiDataForDisplay", data.networks)
     }
