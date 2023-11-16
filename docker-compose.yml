@@ -1,0 +1,13 @@
+version: '3.9'
+
+services: 
+  wifichomp-server:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: wifichomp-server
+    restart: unless-stopped
+    ports:
+      - 8484:8484
+    environment:
+      - SENSOR_API_TOKEN=${SENSOR_API_TOKEN}
