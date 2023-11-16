@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wifichomp</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Real Time Wifi SSIDs</h1>
+
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>SSID</th>
+            <th>Signal Level (dBm)</th>
+          </tr>
+        </thead>
+        <tbody id="wifiTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+  <script>
+    const socket = io(window.location.href)
+
+    socket.on('connect', () => {
+      console.log('Connected to the server')
+    })
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from the server')
+    })
+
+    socket.on('wifiDataForDisplay', (networks) => {
+      const wifiTableBody = document.getElementById('wifiTableBody')
+      wifiTableBody.innerHTML = ''
+
+      networks.forEach(network => {
+        const tableRow = document.createElement('tr')
+        const ssidCell = document.createElement('td')
+        const signalLevelCell = document.createElement('td')
+
+        ssidCell.textContent = network[0]
+        signalLevelCell.textContent = network[1]
+
+        tableRow.appendChild(ssidCell)
+        tableRow.appendChild(signalLevelCell)
+
+        wifiTableBody.appendChild(tableRow)
+      })
+    })
+  </script>
+</body>
+</html>
